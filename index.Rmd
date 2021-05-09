@@ -1,0 +1,211 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
+
+```{r}
+plot(cars)
+```
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+
+<hr>
+
+```
+install.packages(ggplot2)
+library(ggplot2)
+```
+
+## object in R
+
+`R` rewrites objects without asking for permission or issuing a warning
+
+```
+object_name <- value
+```
+
+- `vector`: a sequence of data elements that are of the same type e.g. `integer`, `double`, `character`, `logical`, `complex` and `raw`
+
+```{r}
+int <- c(5,6,7,8)
+
+# ensures the object will store integers instead of the default double
+
+only_int <- c(5L,6L,7L,8L)
+
+char <- c("R", "Programming")
+
+logc <- c(FALSE, TRUE)
+
+ls()
+
+?is.complex()
+?is.raw()
+
+```
+
+## Function
+
+```
+args(function.name) : returns the arguments a function takes
+```
+
+R has predefined argument order that's why the more arguments there are the higher the chance of getting the order wrong
+
+## Simulation
+
+```{r}
+draw <- function(){
+  deck <- c("king", "queen", "jack", "A")
+  pick <- sample(deck,3,replace = T)
+  print(pick)
+}
+```
+
+## Matrix
+
+> Built in function are weired in R because they can directly apply on object like `rownames(matrix_name)``
+
+- Matrix are a natural extension to vector 
+- They have a fixed number of rows and columns 
+- Can contain only one basic data type
+
+```{r}
+gdp <- matrix(c(1,2,3,4,5,6,7,8,9),
+              nrow=3,byrow = T, 
+              dimnames = list(
+                c("usa","ban","ind"),
+                c("2018","2019","2020")
+              ))
+print(gdp)
+```
+
+## Categorical variable
+
+The different categories in a categorical variables are called levels
+
+```{r}
+marital.status <- c("Married", "Married", "Single", "Married", "Divorced", "Single")
+print(marital.status)
+str(marital.status)
+marital.factor <- factor(marital.status)
+print(marital.factor)
+```
+
+## conditional statement
+
+```{r}
+z <- c(1,2,3,4)
+
+if(z < 3){
+  print("True at 3rd position")
+}
+```
+
+
+## DataFrame
+
+```{r}
+title <- c("3 idiots", "CLOY", "GOBLIN")
+rating <- c(9,6.5,8)
+my.data <- data.frame(Movie_Name = title,Rating = rating)
+print(my.data)
+```
+
+
+## Installing tidyverse
+
+```
+------------------------ ANTICONF ERROR ---------------------------
+Configuration failed because libcurl was not found. Try installing:
+ * deb: libcurl4-openssl-dev (Debian, Ubuntu, etc)
+....
+....
+```
+
+Copy and paste the following to your Terminal and than try installing tidyverse again. Should solve the problem.
+
+```
+# Required for many packages
+sudo apt-get install -y libxml2-dev libcurl4-openssl-dev libssl-dev
+```
+
+## Importing 
+
+Read a file in table format and creates a data frame from it:
+
+```
+read.table("file.name", sep= , header= , stringsAsFactors=)
+```
+
+```{r}
+my.pok <- read.table("pokRdex_comma.csv",
+                     sep = ",",
+                     header = T,
+                     stringsAsFactors = F)
+
+my.pok
+
+```
+
+
+Alternative function:
+
+```
+read.csv("file_name", stringsAsFactors= )
+```
+
+If the notation for the decimal is a comma then use `read.csv2()` or `read.delim2` function.
+
+Getting a sense of your data:
+
+- `nrows()`
+- `ncols()`
+- `colnames()`
+- `rownames()`
+- `str()`
+- `summary()`
+
+```
+my.wars <- as.data.frame(starwars)
+## my.wars[row,column]
+head(my.wars[ , 1])
+```
+
+## Exportaing
+
+Setting `row.names` to `FALSE` will save you unnecessary work 
+
+```
+write.csv(data, file="file_name.csv", row.names=FALSE)
+```
+
+## Manipulating data.frame
+
+```
+## adding columns 
+data.frame$new.column
+data.frame[["new.column"]]
+cbind(data.frame, new.column)
+## adding rows
+rbind(data.frame,new.data.frame)
+```
+
+## Missing data
+
+```{r}
+example.na <- c(NA,1:10)
+mean(example.na)
+mean(example.na, na.rm = TRUE)
+any(is.na(example.na))
+example.na[is.na(example.na)] <- median(example.na, na.rm = TRUE)
+example.na
+```
